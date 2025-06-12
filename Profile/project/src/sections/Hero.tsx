@@ -94,7 +94,7 @@ const Hero = () => {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6"
           >
             <span className="bg-gradient-to-r from-accent-cyan to-accent-pink bg-clip-text text-transparent">
-              Your Name
+              Vinay Tellagorla
             </span>
           </motion.h1>
           

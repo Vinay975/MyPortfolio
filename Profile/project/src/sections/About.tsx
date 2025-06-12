@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Download } from 'lucide-react';
+import photo from "./myphoto.jpg"
 
 const About = () => {
   return (
@@ -14,9 +15,9 @@ const About = () => {
           className="max-w-5xl mx-auto"
         >
           <h2 className="section-title section-title-gradient">About Me</h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-5 gap-10 items-center">
-            <motion.div 
+            <motion.div
               className="md:col-span-2"
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -24,9 +25,9 @@ const About = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <div className="relative">
-                <div className="aspect-square rounded-2xl overflow-hidden border-2 border-gray-800 relative z-10">
+                <div className="h-70 rounded-2xl overflow-hidden border-2 border-gray-800 relative z-10">
                   <img
-                    src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                    src={photo}
                     alt="Profile"
                     className="w-full h-full object-cover"
                   />
@@ -34,8 +35,8 @@ const About = () => {
                 <div className="absolute inset-0 bg-accent-cyan/20 rounded-2xl blur-xl -z-10 translate-x-4 translate-y-4"></div>
               </div>
             </motion.div>
-            
-            <motion.div 
+
+            <motion.div
               className="md:col-span-3"
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -43,23 +44,23 @@ const About = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
             >
               <p className="text-lg leading-relaxed text-muted mb-6">
-                Hello! I'm a passionate frontend developer based in [Your Location]. With a strong 
-                foundation in modern web technologies and a keen eye for design, I create engaging 
+                Hello! I'm a passionate Fullstack developer and Coding. With a strong
+                foundation in modern web technologies and a keen eye for design, I create engaging
                 digital experiences that prioritize both functionality and aesthetics.
               </p>
-              
+
               <p className="text-lg leading-relaxed text-muted mb-6">
-                My journey in web development started in [Year], and since then, I've worked on a 
-                variety of projects ranging from interactive web applications to responsive e-commerce 
-                platforms. I specialize in React.js, TypeScript, and modern CSS frameworks, constantly 
+                My journey in web development started in 2024, and since then, I've worked on a
+                variety of projects ranging from interactive web applications to responsive e-commerce
+                platforms. I specialize in React.js, TypeScript, and modern CSS frameworks, constantly
                 learning and adapting to new technologies.
               </p>
-              
-              <p className="text-lg leading-relaxed text-muted mb-8">
+
+              {/* <p className="text-lg leading-relaxed text-muted mb-8">
                 When I'm not coding, you can find me [Your Hobbies/Interests]. I believe that these 
                 diverse interests contribute to my creative problem-solving approach in development.
-              </p>
-              
+              </p> */}
+
               <motion.a
                 href="/resume.pdf"
                 download
@@ -68,7 +69,7 @@ const About = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <Download size={16} />
-                Download Resume
+                Download Resu
               </motion.a>
             </motion.div>
           </div>
