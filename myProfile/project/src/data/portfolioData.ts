@@ -16,8 +16,6 @@ export const skills = {
     { name: "JavaScript (ES6+)", level: 88 },
     { name: "TypeScript", level: 75 },
     { name: "HTML5 & CSS3", level: 92 },
-    { name: "Tailwind CSS", level: 90 },
-    { name: "Redux", level: 80 },
     { name: "Bootstrap", level: 85 }
   ],
   backend: [
@@ -107,16 +105,16 @@ export const projects = [
 ];
 
 export const miniProjects = [
-  { name: "Calculator", tech: "JavaScript", github: "https://github.com/Vinay975/calculator" },
+  { name: "Calculator", tech: "JavaScript", github: "https://dashing-sprinkles-a79678.netlify.app/" },
   { name: "Weather App", tech: "React", github: "https://github.com/Vinay975/weather-app" },
   { name: "Chatbot", tech: "Node.js", github: "https://github.com/Vinay975/chatbot" },
   { name: "Notes App", tech: "MERN", github: "https://github.com/Vinay975/notes-app" },
   { name: "Currency Converter", tech: "React", github: "https://github.com/Vinay975/currency-converter" },
   { name: "QR Code Generator", tech: "JavaScript", github: "https://github.com/Vinay975/qr-generator" },
   { name: "Password Generator", tech: "JavaScript", github: "https://github.com/Vinay975/password-generator" },
-  { name: "Rock Paper Scissors", tech: "JavaScript", github: "https://github.com/Vinay975/rps-game" },
+  { name: "Rock Paper Scissors", tech: "JavaScript", github: "https://vermillion-gnome-8ff4a2.netlify.app/" },
   { name: "Expense Splitter", tech: "React", github: "https://github.com/Vinay975/expense-splitter" },
-  { name: "Timer App", tech: "React", github: "https://github.com/Vinay975/timer-app" }
+  { name: "Timer App", tech: "React", github: "https://vermillion-gnome-8ff4a2.netlify.app/" }
 ];
 
 export const internships = [
@@ -127,7 +125,7 @@ export const internships = [
     duration: "June 10, 2024 – July 27, 2024",
     description: "Real-time full stack training with React Native, focusing on mobile app development and backend integration.",
     type: "Training",
-    certificate: "https://example.com/certificate1.png"
+    certificate: '/intership1.pdf',
   },
   {
     id: 2,
@@ -137,7 +135,7 @@ export const internships = [
     duration: "May 01, 2025 – June 30, 2025",
     description: "Selected through rigorous process. Hands-on experience with React Native, full stack development, and modern development practices.",
     type: "Internship",
-    certificate: "https://example.com/certificate2.pdf"
+    certificate: '/intership2.pdf',
   }
 ];
 
@@ -145,41 +143,65 @@ export const certificates = [
   {
     id: 1,
     name: "React Developer Certification",
-    issuer: "Meta",
+    issuer: "HackerRank",
     date: "2024",
-    image: "https://images.pexels.com/photos/267507/pexels-photo-267507.jpeg?auto=compress&cs=tinysrgb&w=400",
-    url: "https://example.com/cert1.pdf"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRC-JxElQcMfe-0FiP_97nC3ynGLKdJHXpHnA&s",
+    url: './'
+  },
+   {
+    id: 2,
+    name: "Java Script(Basic)",
+    issuer: "HackerRank",
+    date: "2024",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6khJE1Ki6sE6LZcZ-ikNjOTVPEVRe5Hpm3A&s",
+    url: './javascript_basic.pdf'
   },
   {
     id: 2,
-    name: "Node.js Certification",
-    issuer: "OpenJS Foundation",
+    name: "Java Script Essentials 1 Certification",
+    issuer: "Cisco Networking Academy",
     date: "2024",
-    image: "https://images.pexels.com/photos/1181677/pexels-photo-1181677.jpeg?auto=compress&cs=tinysrgb&w=400",
-    url: "https://example.com/cert2.pdf"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStcLTs7Bk6BMNVhoF_ufFaD8jhN8SSObWwfw&s",
+    url: './javascript1.pdf'
   },
   {
     id: 3,
-    name: "MongoDB Developer",
-    issuer: "MongoDB University",
-    date: "2023",
-    image: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=400",
-    url: "https://example.com/cert3.pdf"
+    name: "Java Script Essentials 2 Certification",
+    issuer: "Cisco Networking Academy",
+    date: "2025",
+    image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8yiAD08nePoxyyzsDzWxg6A14v5ux6r0FNQ&s",
+    url: './javascript2.pdf'
   },
   {
     id: 4,
-    name: "JavaScript Algorithms",
-    issuer: "freeCodeCamp",
-    date: "2023",
-    image: "https://images.pexels.com/photos/4164418/pexels-photo-4164418.jpeg?auto=compress&cs=tinysrgb&w=400",
-    url: "https://example.com/cert4.pdf"
-  }
+    name: "MongoDB Developer's Toolkit",
+    issuer: "GeeksforGeeks",
+    date: "2025",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6YmhDdn1HLzatPyuWRTg-YlitbQJtwdb_VQ&s",
+    url: './MongoDB.pdf'
+  },
+  {
+    id: 5 ,
+    name: "Python",
+    issuer: "HackerRank",
+    date: "2025",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS65CTTHb2m6CvvK31nYqH3bJbjrTvZ6e7rjw&s",
+    url: './python.pdf'
+  },
+   {
+    id: 56,
+    name: "C++",
+    issuer: "GeeksforGeeks",
+    date: "2025",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvVm4yEaRq9Ry8KTqRfBc1gyfz_SUGhRCAIQ&s",
+    url: './c++.pdf'
+  },
 ];
 
 export const education = {
-  degree: "B.Tech in Computer Science Engineering",
-  college: "Jawaharlal Nehru Technological University",
-  year: "2021-2025",
-  location: "Hyderabad, India",
-  gpa: "8.5/10"
+  degree: "B.Tech in Artificial Intelligence & Machine Learning",
+  college: "Aditya Engineering College",
+  year: "2022-2026",
+  location: "Surampalem, India",
+  gpa: "7.7/10"
 };

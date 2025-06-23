@@ -133,13 +133,12 @@ const Skills: React.FC = () => {
           {/* Additional Skills Tags */}
           <motion.div variants={itemVariants} className="mt-16 text-center">
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">
-              Additional Technologies
+              Programming Languages
             </h3>
             <div className="flex flex-wrap justify-center gap-4">
               {[
-                'Responsive Design', 'RESTful APIs', 'GraphQL', 'WebSockets', 'PWA',
-                'Docker', 'AWS', 'Vercel', 'Netlify', 'Jest', 'Cypress',
-                'Figma', 'Adobe XD', 'Agile', 'Scrum', 'CI/CD'
+                'C++','C','Java','Python','OOPS','Data Structure algorithm',
+    
               ].map((tech, index) => (
                 <motion.span
                   key={tech}

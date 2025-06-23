@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Code, Smartphone, Database, Globe } from 'lucide-react';
 import { personalInfo, education } from '../data/portfolioData';
+import "./style.css"
+import photo from '../../public/perfect.jpg'
 
 const About: React.FC = () => {
   const [ref, inView] = useInView({
@@ -78,7 +80,12 @@ const About: React.FC = () => {
                   <div className="w-full h-full bg-white dark:bg-gray-900 rounded-full flex items-center justify-center">
                     <div className="w-72 h-72 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-full flex items-center justify-center">
                       <span className="text-6xl font-bold text-blue-600 dark:text-blue-400">
-                        {personalInfo.name.split(' ').map(n => n[0]).join('')}
+                        {/* {personalInfo.name.split(' ').map(n => n[0]).join('')} */}
+                        <img
+                          src={photo}
+                          alt="Vinay Tellagorla"
+                          className="profile-pic"
+                        />
                       </span>
                     </div>
                   </div>
@@ -94,6 +101,7 @@ const About: React.FC = () => {
                   </p>
                   <p className="text-gray-600 dark:text-gray-400">{education.college}</p>
                   <p className="text-gray-600 dark:text-gray-400">{education.year}</p>
+                  <p className="text-gray-600 dark:text-gray-400">{education.location}</p>
                   <p className="text-gray-600 dark:text-gray-400">GPA: {education.gpa}</p>
                 </div>
               </div>
@@ -106,13 +114,13 @@ const About: React.FC = () => {
                   Passionate Developer & Problem Solver
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed mb-6">
-                  I'm a dedicated Full Stack Developer with a passion for creating innovative solutions 
-                  that make a real impact. With hands-on experience in both web and mobile development, 
+                  I'm a dedicated Full Stack Developer with a passion for creating innovative solutions
+                  that make a real impact. With hands-on experience in both web and mobile development,
                   I enjoy tackling complex challenges and turning ideas into reality.
                 </p>
                 <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed mb-6">
-                  My journey in software development has been driven by curiosity and a desire to 
-                  continuously learn and grow. I specialize in the MERN stack and React Native, 
+                  My journey in software development has been driven by curiosity and a desire to
+                  continuously learn and grow. I specialize in the MERN stack and React Native,
                   allowing me to build comprehensive solutions from concept to deployment.
                 </p>
               </div>

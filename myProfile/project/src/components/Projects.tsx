@@ -142,8 +142,8 @@ const Projects: React.FC = () => {
         rel="noopener noreferrer"
         className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
       >
-        <Github size={16} />
-        View Code
+        <ExternalLink size={16} />
+        Live Demo
       </motion.a>
     </motion.div>
   );

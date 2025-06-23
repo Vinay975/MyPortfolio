@@ -84,6 +84,7 @@ const Experience: React.FC = () => {
           className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors font-medium"
         >
           <ExternalLink size={16} />
+          
           View Offer Letter
         </motion.a>
       </div>

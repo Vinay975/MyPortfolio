@@ -34,7 +34,7 @@ const Hero: React.FC = () => {
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900" />
-      
+
       {/* Animated background particles */}
       <div className="absolute inset-0">
         {[...Array(50)].map((_, i) => (
@@ -92,6 +92,7 @@ const Hero: React.FC = () => {
                     'Frontend Developer',
                     'Backend Developer',
                     'Fullstack Developer',
+                    'coder',
                     'Software Engineer',
                     'React Native Developer'
                   ],
@@ -126,14 +127,23 @@ const Hero: React.FC = () => {
               >
                 Get In Touch
               </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="border-2 border-blue-600 text-blue-600 dark:text-blue-400 px-8 py-3 rounded-full font-medium hover:bg-blue-600 hover:text-white dark:hover:text-white transition-all duration-300 flex items-center gap-2"
+              {/*  */}
+
+              <a
+                href="/Vinay_FullStack_Resume.pdf"
+                download="Vinay_Tellagorla_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <Download size={18} />
-                Download CV
-              </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="border-2 border-blue-600 text-blue-600 dark:text-blue-400 px-8 py-3 rounded-full font-medium hover:bg-blue-600 hover:text-white dark:hover:text-white transition-all duration-300 flex items-center gap-2"
+                >
+                  <Download size={18} />
+                  Download CV
+                </motion.button>
+              </a>
             </motion.div>
           </motion.div>
 
