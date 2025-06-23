@@ -64,12 +64,12 @@ export const projects = [
   },
   {
     id: 3,
-    title: "OpenTable Clone",
-    description: "Restaurant booking application with real-time availability, user reviews, and seamless reservation management.",
+    title: "OpenTab",
+    description: "Developed a platform for users to team up, share concepts, and collaborate in virtual spaces.",
     tech: ["React", "Node.js", "Express", "MongoDB"],
-    github: "https://github.com/Vinay975/opentable-clone",
+    github: "https://github.com/venugopal8005/opentable",
     live: "https://opentable-clone.vercel.app",
-    image: "https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ419B6BAh2jFJtfkodnYEGnzEOmS6khwzThQ&s",
     featured: true
   },
   {
@@ -79,7 +79,7 @@ export const projects = [
     tech: ["React", "CSS3", "JavaScript", "HTML5"],
     github: "https://github.com/Vinay975/resume-builder",
     live: "https://resume-builder-app.vercel.app",
-    image: "https://images.pexels.com/photos/590020/pexels-photo-590020.jpg?auto=compress&cs=tinysrgb&w=800",
+    image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS34SBJO8TXo4bYzP6qfzuy8ttweKBOWHhzVA&s",
     featured: true
   },
   {
