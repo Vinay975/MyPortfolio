@@ -1,0 +1,5 @@
+  Content-Type: application/wasm
+
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self';
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff

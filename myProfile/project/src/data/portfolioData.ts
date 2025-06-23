@@ -77,7 +77,7 @@ export const projects = [
     title: "Resume Builder",
     description: "Dynamic resume generator with multiple templates, real-time preview, and PDF export functionality.",
     tech: ["React", "CSS3", "JavaScript", "HTML5"],
-    github: "https://github.com/Vinay975/resume-builder",
+    github: "https://github.com/Vinay975/Resume",
     live: "https://resume-builder-app.vercel.app",
     image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS34SBJO8TXo4bYzP6qfzuy8ttweKBOWHhzVA&s",
     featured: true
