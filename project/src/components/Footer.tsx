@@ -1,193 +1,169 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Heart, Github, Linkedin, Mail, ArrowUp } from 'lucide-react';
+import { ArrowUp, Github, Linkedin, Mail, ArrowUpRight, Play } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
+import { getDialogue } from '../data/marvelDialogue';
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  onReplayIntro?: () => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ onReplayIntro }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const currentYear = new Date().getFullYear();
 
-  const socialLinks = [
-    {
-      name: "GitHub",
-      icon: <Github size={20} />,
-      url: `https://github.com/${personalInfo.github}`,
-      color: "hover:text-gray-800 dark:hover:text-gray-200"
-    },
-    {
-      name: "LinkedIn",
-      icon: <Linkedin size={20} />,
-      url: `https://linkedin.com/in/${personalInfo.linkedin}`,
-      color: "hover:text-blue-600"
-    },
-    {
-      name: "Email",
-      icon: <Mail size={20} />,
-      url: `mailto:${personalInfo.email}`,
-      color: "hover:text-red-500"
-    }
-  ];
-
-  const quickLinks = [
+  const navLinks = [
     { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Contact', href: '#contact' }
+    { name: 'About Dossier', href: '#about' },
+    { name: 'Technical Arsenal', href: '#skills' },
+    { name: 'Mission Archives', href: '#projects' },
+    { name: 'Field Records', href: '#experience' },
+    { name: 'Credentials', href: '#certifications' },
+    { name: 'Comms', href: '#contact' },
   ];
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const scrollTo = (href: string) => {
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <footer className="bg-gray-900 dark:bg-black text-white relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 25% 25%, #3b82f6 0%, transparent 50%),
-                           radial-gradient(circle at 75% 75%, #8b5cf6 0%, transparent 50%)`
-        }} />
-      </div>
-
-      <div className="relative z-10">
-        {/* Main Footer Content */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Brand & Description */}
-            <div className="lg:col-span-2">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="mb-6"
-              >
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-4">
-                  {personalInfo.name}
-                </h3>
-                <p className="text-gray-400 text-lg leading-relaxed max-w-md">
-                  Full Stack Developer passionate about creating innovative solutions and building 
-                  amazing user experiences with modern technologies.
-                </p>
-              </motion.div>
-
-              {/* Social Links */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="flex gap-4"
-              >
-                {socialLinks.map((social) => (
-                  <motion.a
-                    key={social.name}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`p-3 bg-gray-800 rounded-lg text-gray-400 transition-all duration-300 ${social.color} hover:bg-gray-700`}
-                    title={social.name}
-                  >
-                    {social.icon}
-                  </motion.a>
-                ))}
-              </motion.div>
-            </div>
-
-            {/* Quick Links */}
+    <footer className="bg-[#090B10] text-[#F5F3EF] border-t border-[#2A303B] transition-colors duration-200 select-none">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12 pb-12 border-b border-[#2A303B]">
+          {/* Brand & Creative Direction Summary (6 cols) */}
+          <div className="md:col-span-6 flex flex-col justify-between">
             <div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-              >
-                <h4 className="text-lg font-semibold mb-6 text-white">Quick Links</h4>
-                <ul className="space-y-3">
-                  {quickLinks.map((link) => (
-                    <li key={link.name}>
-                      <button
-                        onClick={() => scrollToSection(link.href)}
-                        className="text-gray-400 hover:text-blue-400 transition-colors duration-300 hover:translate-x-1 transform block"
-                      >
-                        {link.name}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            </div>
-
-            {/* Contact Info */}
-            <div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
-                <h4 className="text-lg font-semibold mb-6 text-white">Get In Touch</h4>
-                <div className="space-y-4">
-                  <div>
-                    <p className="text-gray-400 text-sm mb-1">Email</p>
-                    <a 
-                      href={`mailto:${personalInfo.email}`}
-                      className="text-blue-400 hover:text-blue-300 transition-colors duration-300"
-                    >
-                      {personalInfo.email}
-                    </a>
-                  </div>
-                  <div>
-                    <p className="text-gray-400 text-sm mb-1">Phone</p>
-                    <a 
-                      href={`tel:${personalInfo.phone}`}
-                      className="text-blue-400 hover:text-blue-300 transition-colors duration-300"
-                    >
-                      {personalInfo.phone}
-                    </a>
-                  </div>
-                  <div>
-                    <p className="text-gray-400 text-sm mb-1">Location</p>
-                    <p className="text-gray-300">{personalInfo.location}</p>
-                  </div>
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-8 h-8 rounded-lg bg-[#171C25] border border-[#2A303B] flex items-center justify-center">
+                  <span className="font-cinematic font-black text-base text-[#D62828]">VT</span>
                 </div>
-              </motion.div>
+                <span className="font-cinematic font-black text-2xl tracking-wider uppercase text-[#F5F3EF]">
+                  {personalInfo.name}
+                </span>
+              </div>
+
+              <p className="font-mono text-xs uppercase tracking-widest text-[#D62828] mb-4">
+                DEVELOPER MULTIVERSE ARCHITECT // SOFTWARE ENGINEER
+              </p>
+
+              <p className="font-sans text-sm text-[#A5ACB8] max-w-md leading-relaxed">
+                Engineering high-resilience web and cross-platform mobile systems with React, Node.js, and TypeScript.
+                Architecting solutions where superhero-level ambition meets clean, production-grade systems design.
+              </p>
+            </div>
+
+            <div className="mt-6 flex items-center gap-3">
+              <a
+                href={`https://github.com/${personalInfo.github}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub Profile"
+                className="p-2.5 rounded-xl border border-[#2A303B] bg-[#171C25] text-[#A5ACB8] hover:text-[#F5F3EF] hover:border-[#D62828] transition-all"
+              >
+                <Github size={16} />
+              </a>
+
+              <a
+                href={`https://linkedin.com/in/${personalInfo.linkedin}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn Profile"
+                className="p-2.5 rounded-xl border border-[#2A303B] bg-[#171C25] text-[#A5ACB8] hover:text-[#F5F3EF] hover:border-[#D62828] transition-all"
+              >
+                <Linkedin size={16} />
+              </a>
+
+              <a
+                href={`mailto:${personalInfo.email}`}
+                aria-label="Send direct transmission"
+                className="p-2.5 rounded-xl border border-[#2A303B] bg-[#171C25] text-[#A5ACB8] hover:text-[#F5F3EF] hover:border-[#D62828] transition-all"
+              >
+                <Mail size={16} />
+              </a>
+            </div>
+          </div>
+
+          {/* Quick Mission Navigation (3 cols) */}
+          <div className="md:col-span-3">
+            <h4 className="font-mono text-xs uppercase tracking-widest text-[#D62828] mb-4 font-bold">
+              NAVIGATION INDEX
+            </h4>
+            <ul className="space-y-2.5 font-mono text-xs uppercase">
+              {navLinks.map((link) => (
+                <li key={link.name}>
+                  <button
+                    onClick={() => scrollTo(link.href)}
+                    className="text-[#A5ACB8] hover:text-[#D62828] transition-colors focus-visible:outline-none focus-visible:text-[#D62828]"
+                  >
+                    {link.name}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Replay Intro & Dossier Download (3 cols) */}
+          <div className="md:col-span-3 flex flex-col justify-between">
+            <div>
+              <h4 className="font-mono text-xs uppercase tracking-widest text-[#D62828] mb-4 font-bold">
+                EXPERIENCE PROTOCOLS
+              </h4>
+              <p className="font-mono text-xs text-[#A5ACB8] mb-4">
+                Re-experience the title sequence or download verifiable credentials:
+              </p>
+
+              {onReplayIntro && (
+                <button
+                  onClick={onReplayIntro}
+                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-[#2A303B] bg-[#171C25] text-[#F5F3EF] hover:border-[#D62828] text-xs font-mono font-bold uppercase tracking-wider transition-colors mb-3"
+                >
+                  <Play size={12} className="text-[#D62828]" />
+                  <span>REPLAY CINEMATIC INTRO</span>
+                </button>
+              )}
+            </div>
+
+            <div>
+              <a
+                href="/Vinay_FullStack_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#D62828] hover:bg-[#A91F27] text-white text-xs font-mono font-bold tracking-wider uppercase transition-colors"
+              >
+                <span>VERIFIED CV DOSSIER</span>
+                <ArrowUpRight size={13} />
+              </a>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-gray-800">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <motion.p
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.6 }}
-                className="text-gray-400 text-sm flex items-center gap-2"
-              >
-                © {currentYear} {personalInfo.name}. Made with 
-                <Heart size={16} className="text-red-500 animate-pulse" />
-                and lots of coffee.
-              </motion.p>
-
-              <motion.button
-                onClick={scrollToTop}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 p-3 rounded-full text-white hover:shadow-lg transition-all duration-300"
-                title="Back to top"
-              >
-                <ArrowUp size={20} />
-              </motion.button>
-            </div>
+        {/* Bottom Bar: Copyright, Dialogue Sign-off & Back To Top */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-[#A5ACB8]">
+          <div className="flex flex-col sm:flex-row items-center gap-2 text-center sm:text-left">
+            <p className="uppercase">
+              © {currentYear} {personalInfo.name.toUpperCase()}. ALL RIGHTS RESERVED.
+            </p>
+            {getDialogue('footerSignoff') && (
+              <>
+                <span className="text-[#D62828] hidden sm:inline">·</span>
+                <span className="italic text-[11px] text-[#A5ACB8]" aria-label={getDialogue('footerSignoff')?.ariaLabel}>
+                  {getDialogue('footerSignoff')?.quote}
+                </span>
+              </>
+            )}
           </div>
+
+          <button
+            onClick={scrollToTop}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl border border-[#2A303B] bg-[#171C25] text-[#A5ACB8] hover:text-[#F5F3EF] hover:border-[#D62828] uppercase transition-all focus-visible:outline-none"
+            aria-label="Back to top"
+          >
+            <span>TOP OF UNIVERSE</span>
+            <ArrowUp size={13} className="text-[#D62828]" />
+          </button>
         </div>
       </div>
     </footer>

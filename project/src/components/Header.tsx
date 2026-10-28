@@ -1,177 +1,265 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Menu, X, Sun, Moon, Github, Linkedin, Mail } from 'lucide-react';
+import { Menu, X, Sun, Moon, FileText, ArrowUpRight, Play, Volume2, VolumeX } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { personalInfo } from '../data/portfolioData';
+import { getAudioMuted, toggleAudioMute, playCinematicWhoosh } from '../utils/soundEffects';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  onReplayIntro?: () => void;
+}
+
+const navItems = [
+  { name: 'Home', href: '#home' },
+  { name: 'About', href: '#about' },
+  { name: 'Arsenal', href: '#skills'},
+  { name: 'Missions', href: '#projects' },
+  { name: 'Field Records', href: '#experience'},
+  { name: 'Credentials', href: '#certifications'},
+  { name: 'Comms', href: '#contact'},
+];
+
+const Header: React.FC<HeaderProps> = ({ onReplayIntro }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
+  const [isMuted, setIsMuted] = useState(getAudioMuted());
   const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 30);
     };
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Contact', href: '#contact' }
-  ];
+  // Active section observer
+  useEffect(() => {
+    const sectionIds = navItems.map((item) => item.href.substring(1));
+    const observerCallback: IntersectionObserverCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      rootMargin: '-20% 0px -70% 0px',
+      threshold: 0,
+    });
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
+      playCinematicWhoosh();
       element.scrollIntoView({ behavior: 'smooth' });
       setIsMenuOpen(false);
     }
   };
 
+  const handleAudioToggle = () => {
+    const muted = toggleAudioMute();
+    setIsMuted(muted);
+  };
+
   return (
-    <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg' 
-          : 'bg-transparent'
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-200 ${
+        isScrolled
+          ? 'bg-[#F5F3EF]/95 dark:bg-[#090B10]/95 backdrop-blur-md border-b border-[#D6D5D0] dark:border-[#2A303B]'
+          : 'bg-transparent border-b border-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+        <div className="flex justify-between items-center h-16 sm:h-20">
+          {/* Brand Wordmark & Developer Call-Sign */}
+          <a
+            href="#home"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection('#home');
+            }}
+            className="group flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D62828] rounded-md"
           >
-            Vinay Tellagorla
-          </motion.div>
+            {/* Custom Monogram Shield */}
+            <div className="w-9 h-9 rounded-lg bg-[#171C25] border border-[#2A303B] group-hover:border-[#D62828] flex items-center justify-center transition-colors">
+              <span className="font-cinematic font-black text-lg tracking-wider text-[#D62828]">
+                VT
+              </span>
+            </div>
+
+            <div className="flex flex-col text-left">
+              <span className="font-cinematic font-bold text-xl sm:text-2xl tracking-wider uppercase text-[#151922] dark:text-[#F5F3EF] group-hover:text-[#D62828] transition-colors leading-none">
+                {personalInfo.name}
+              </span>
+              <span className="font-mono text-[10px] uppercase tracking-widest text-[#5E6672] dark:text-[#A5ACB8] mt-0.5">
+                FULL STACK // MULTIVERSE ARCHITECT
+              </span>
+            </div>
+          </a>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            {navItems.map((item) => (
-              <button
-                key={item.name}
-                onClick={() => scrollToSection(item.href)}
-                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"
-              >
-                {item.name}
-              </button>
-            ))}
+          <nav className="hidden xl:flex items-center space-x-1" aria-label="Command Center Navigation">
+            {navItems.map((item) => {
+              const isActive = activeSection === item.href.substring(1);
+              return (
+                <button
+                  key={item.name}
+                  onClick={() => scrollToSection(item.href)}
+                  className={`px-3 py-1.5 text-xs font-mono uppercase tracking-wider transition-colors relative rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D62828] ${
+                    isActive
+                      ? 'text-[#D62828] font-bold'
+                      : 'text-[#5E6672] dark:text-[#A5ACB8] hover:text-[#151922] dark:hover:text-[#F5F3EF]'
+                  }`}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  <span className="text-[10px] opacity-40 mr-1">{item.code}</span>
+                  {item.name}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-[#D62828] rounded-full shadow-[0_0_8px_#D62828]" />
+                  )}
+                </button>
+              );
+            })}
           </nav>
 
-          {/* Social Links & Theme Toggle */}
-          <div className="hidden md:flex items-center space-x-4">
-            <motion.a
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              href={`https://github.com/${personalInfo.github}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          {/* Right Controls: Audio Toggle, Replay Intro, Theme Switch, Resume */}
+          <div className="hidden sm:flex items-center space-x-2.5">
+            {/* Audio Toggle */}
+            <button
+              onClick={handleAudioToggle}
+              className="p-2 rounded-lg border border-[#D6D5D0] dark:border-[#2A303B] bg-white dark:bg-[#171C25] text-[#5E6672] dark:text-[#A5ACB8] hover:border-[#D62828] hover:text-[#D62828] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D62828]"
+              title={isMuted ? 'Enable procedural audio' : 'Mute audio'}
+              aria-label={isMuted ? 'Audio muted' : 'Audio active'}
             >
-              <Github size={20} />
-            </motion.a>
-            <motion.a
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              href={`https://linkedin.com/in/${personalInfo.linkedin}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              <Linkedin size={20} />
-            </motion.a>
-            <motion.a
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              href={`mailto:${personalInfo.email}`}
-              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              <Mail size={20} />
-            </motion.a>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
+              {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} className="text-[#D62828]" />}
+            </button>
+
+            {/* Replay Intro Button */}
+            {onReplayIntro && (
+              <button
+                onClick={onReplayIntro}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[#D6D5D0] dark:border-[#2A303B] bg-white dark:bg-[#171C25] text-[#5E6672] dark:text-[#A5ACB8] hover:border-[#D62828] hover:text-[#D62828] text-xs font-mono transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D62828]"
+                title="Replay cinematic universe intro"
+              >
+                <Play size={12} className="text-[#D62828]" />
+                <span className="hidden md:inline">INTRO</span>
+              </button>
+            )}
+
+            {/* Theme Toggle */}
+            <button
               onClick={toggleTheme}
-              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+              className="p-2 rounded-lg border border-[#D6D5D0] dark:border-[#2A303B] bg-white dark:bg-[#171C25] text-[#151922] dark:text-[#F5F3EF] hover:border-[#D62828] hover:text-[#D62828] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D62828]"
+              aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
             >
-              {isDark ? <Sun size={18} /> : <Moon size={18} />}
-            </motion.button>
+              {isDark ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+
+            {/* Resume Action */}
+            <a
+              href="/Vinay_FullStack_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#D62828] hover:bg-[#A91F27] text-white text-xs font-mono font-bold tracking-wider uppercase shadow-md shadow-[#D62828]/20 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
+              <FileText size={13} />
+              <span>DOSSIER / CV</span>
+              <ArrowUpRight size={12} className="opacity-80" />
+            </a>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center space-x-2">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={toggleTheme}
-              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+          {/* Mobile Controls */}
+          <div className="flex sm:hidden items-center space-x-2">
+            <button
+              onClick={handleAudioToggle}
+              className="p-2 rounded-lg border border-[#D6D5D0] dark:border-[#2A303B] bg-white dark:bg-[#171C25] text-[#5E6672] dark:text-[#A5ACB8]"
+              aria-label="Toggle audio"
             >
-              {isDark ? <Sun size={18} /> : <Moon size={18} />}
-            </motion.button>
+              {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} className="text-[#D62828]" />}
+            </button>
+
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg border border-[#D6D5D0] dark:border-[#2A303B] bg-white dark:bg-[#171C25] text-[#151922] dark:text-[#F5F3EF]"
+              aria-label="Toggle theme"
+            >
+              {isDark ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              className="p-2 rounded-lg border border-[#D6D5D0] dark:border-[#2A303B] bg-white dark:bg-[#171C25] text-[#151922] dark:text-[#F5F3EF]"
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isMenuOpen}
             >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Dropdown Drawer */}
         {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-4"
-          >
-            <nav className="flex flex-col space-y-4">
-              {navItems.map((item) => (
-                <button
-                  key={item.name}
-                  onClick={() => scrollToSection(item.href)}
-                  className="text-left text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium px-4 py-2"
-                >
-                  {item.name}
-                </button>
-              ))}
+          <div className="sm:hidden border-t border-[#D6D5D0] dark:border-[#2A303B] bg-[#F5F3EF] dark:bg-[#090B10] px-3 pt-3 pb-6 shadow-2xl animate-in slide-in-from-top-2 duration-150">
+            <nav className="flex flex-col space-y-1">
+              {navItems.map((item) => {
+                const isActive = activeSection === item.href.substring(1);
+                return (
+                  <button
+                    key={item.name}
+                    onClick={() => scrollToSection(item.href)}
+                    className={`text-left px-3 py-2.5 rounded-lg text-sm font-mono uppercase tracking-wider transition-colors flex items-center justify-between ${
+                      isActive
+                        ? 'bg-[#D62828]/15 text-[#D62828] font-bold border border-[#D62828]/30'
+                        : 'text-[#5E6672] dark:text-[#A5ACB8] hover:bg-black/5 dark:hover:bg-white/5'
+                    }`}
+                  >
+                    <span>{item.name}</span>
+                    <span className="text-xs opacity-50 font-mono">{item.code}</span>
+                  </button>
+                );
+              })}
             </nav>
-            <div className="flex justify-center space-x-6 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+
+            <div className="mt-4 pt-4 border-t border-[#D6D5D0] dark:border-[#2A303B] flex flex-col gap-2">
+              {onReplayIntro && (
+                <button
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    onReplayIntro();
+                  }}
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-[#2A303B] bg-[#171C25] text-xs font-mono text-[#F5F3EF]"
+                >
+                  <Play size={13} className="text-[#D62828]" />
+                  <span>REPLAY CINEMATIC INTRO</span>
+                </button>
+              )}
+
               <a
-                href={`https://github.com/${personalInfo.github}`}
+                href="/Vinay_FullStack_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#D62828] text-white font-mono font-bold text-xs uppercase tracking-wider"
               >
-                <Github size={20} />
-              </a>
-              <a
-                href={`https://linkedin.com/in/${personalInfo.linkedin}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                <Linkedin size={20} />
-              </a>
-              <a
-                href={`mailto:${personalInfo.email}`}
-                className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                <Mail size={20} />
+                <FileText size={15} />
+                <span>DOWNLOAD DOSSIER / CV</span>
+                <ArrowUpRight size={14} />
               </a>
             </div>
-          </motion.div>
+          </div>
         )}
       </div>
-    </motion.header>
+    </header>
   );
 };
 

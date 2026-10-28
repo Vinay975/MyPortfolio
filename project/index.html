@@ -4,17 +4,31 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vinay Tellagorla - Full Stack Developer Portfolio</title>
-    <meta name="description" content="Full Stack & Software Developer specializing in React, Node.js, and modern web technologies. View my projects, skills, and experience." />
-    <meta name="keywords" content="Full Stack Developer, React, Node.js, JavaScript, Web Development, Software Engineer, Vinay Tellagorla" />
-    <meta property="og:title" content="Vinay Tellagorla - Full Stack Developer Portfolio" />
-    <meta property="og:description" content="Passionate Full Stack Developer with expertise in React, Node.js, and modern web technologies." />
+    <title>Vinay Tellagorla — Cinematic Developer Portfolio</title>
+    <meta name="description" content="Cinematic Developer Portfolio of Vinay Tellagorla — Full Stack Developer & Software Engineer. Mission archives, technical arsenal, and interactive 3D universe." />
+    <meta name="keywords" content="Vinay Tellagorla, Full Stack Developer, Software Engineer, React Developer, React Native, Node.js, TypeScript, Marvel, Cinematic Portfolio" />
+    <meta property="og:title" content="Vinay Tellagorla — Cinematic Developer Portfolio" />
+    <meta property="og:description" content="Explore missions, technical capabilities, and full-stack software systems in an original cinematic universe." />
     <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#090B10" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('theme');
+          var isDark = saved ? saved === 'dark' : true; // Default to dark cinematic experience
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
-  <body>
+  <body class="bg-[#F5F3EF] dark:bg-[#090B10] text-[#151922] dark:text-[#F5F3EF] transition-colors duration-200 antialiased selection:bg-[#D62828]/30 selection:text-[#D62828] overflow-x-hidden">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

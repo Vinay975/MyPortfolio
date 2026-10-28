@@ -7,4 +7,15 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  build: {
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          threejs: ['three', '@react-three/fiber', '@react-three/drei'],
+          framework: ['react', 'react-dom'],
+        },
+      },
+    },
+  },
 });

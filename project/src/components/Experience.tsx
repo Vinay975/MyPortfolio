@@ -1,203 +1,223 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { Calendar, MapPin, Building, Award, Download, ExternalLink } from 'lucide-react';
+import { Building2, Calendar, MapPin, Award, FileText, ArrowUpRight, CheckCircle2, ShieldCheck, Cpu } from 'lucide-react';
 import { internships, certificates } from '../data/portfolioData';
 
 const Experience: React.FC = () => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-      },
-    },
-  };
-
-  const InternshipCard: React.FC<{ internship: typeof internships[0], index: number }> = ({ internship, index }) => (
-    <motion.div
-      variants={itemVariants}
-      whileHover={{ scale: 1.02 }}
-      className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden"
-    >
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full -translate-y-16 translate-x-16" />
-      
-      <div className="relative z-10">
-        <div className="flex items-start justify-between mb-6">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl text-white">
-              <Building size={24} />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                {internship.role}
-              </h3>
-              <p className="text-blue-600 dark:text-blue-400 font-medium">
-                {internship.company}
-              </p>
-            </div>
-          </div>
-          <span className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm font-medium">
-            {internship.type}
-          </span>
-        </div>
-
-        <div className="flex items-center gap-4 mb-4 text-gray-600 dark:text-gray-400">
-          <div className="flex items-center gap-2">
-            <Calendar size={16} />
-            <span className="text-sm">{internship.duration}</span>
-          </div>
-          {internship.employeeId && (
-            <div className="flex items-center gap-2">
-              <span className="text-sm">ID: {internship.employeeId}</span>
-            </div>
-          )}
-        </div>
-
-        <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
-          {internship.description}
-        </p>
-
-        <motion.a
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          href={internship.certificate}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors font-medium"
-        >
-          <ExternalLink size={16} />
-          
-          View Offer Letter
-        </motion.a>
-      </div>
-    </motion.div>
-  );
-
-  const CertificateCard: React.FC<{ certificate: typeof certificates[0], index: number }> = ({ certificate, index }) => (
-    <motion.div
-      variants={itemVariants}
-      whileHover={{ scale: 1.05 }}
-      className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer"
-    >
-      <div className="relative overflow-hidden">
-        <img
-          src={certificate.image}
-          alt={certificate.name}
-          className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-        <div className="absolute bottom-4 left-4 right-4">
-          <h3 className="text-white font-bold text-lg mb-1">
-            {certificate.name}
-          </h3>
-          <p className="text-white/80 text-sm">
-            {certificate.issuer} • {certificate.date}
-          </p>
-        </div>
-        <div className="absolute top-4 right-4">
-          <motion.a
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            href={certificate.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-white/90 backdrop-blur-sm p-2 rounded-full text-gray-800 hover:bg-white transition-colors"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Download size={18} />
-          </motion.a>
-        </div>
-      </div>
-    </motion.div>
-  );
-
   return (
-    <section id="experience" className="py-20 bg-white dark:bg-gray-900">
+    <section
+      id="experience"
+      aria-label="Field Records & Credentials Section"
+      className="py-24 sm:py-32 bg-[#F5F3EF] dark:bg-[#090B10] transition-colors duration-200"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
         <motion.div
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-6 border-b border-[#D6D5D0] dark:border-[#2A303B]"
         >
-          <motion.div variants={itemVariants} className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Experience & Achievements
+          <div>
+            <div className="font-mono text-xs uppercase tracking-widest text-[#D62828] mb-2 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#D62828]" />
+              <span>DOSSIER // FIELD RECORDS & VERIFICATION</span>
+            </div>
+            <h2 className="font-cinematic font-black text-4xl sm:text-5xl tracking-wider uppercase text-[#151922] dark:text-[#F5F3EF]">
+              FIELD RECORDS
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full" />
-            <p className="text-gray-600 dark:text-gray-400 mt-6 text-lg max-w-3xl mx-auto">
-              My professional journey through internships, training programs, and certifications that have shaped my development skills.
-            </p>
-          </motion.div>
-
-          {/* Internships Section */}
-          <motion.div variants={itemVariants} className="mb-20">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg text-white">
-                <Building size={20} />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-                Internships & Training
-              </h3>
-            </div>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {internships.map((internship, index) => (
-                <InternshipCard key={internship.id} internship={internship} index={index} />
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Certificates Section */}
-          <motion.div variants={itemVariants}>
-            <div className="flex items-center gap-3 mb-8">
-              <div className="p-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg text-white">
-                <Award size={20} />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-                Certifications
-              </h3>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              {certificates.map((certificate, index) => (
-                <CertificateCard key={certificate.id} certificate={certificate} index={index} />
-              ))}
-            </div>
-
-            <div className="text-center">
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Continuously learning and staying updated with the latest technologies
-              </p>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-3 rounded-full font-medium hover:shadow-lg transition-all duration-300"
-              >
-                <Award size={18} />
-                View All Certificates
-              </motion.div>
-            </div>
-          </motion.div>
+          </div>
+          <p className="mt-3 md:mt-0 font-mono text-xs text-[#5E6672] dark:text-[#A5ACB8] max-w-sm uppercase tracking-wider">
+            VERIFIED INDUSTRY APPRENTICESHIPS & INSTITUTIONAL CREDENTIALS.
+          </p>
         </motion.div>
+
+        {/* 1. Industry Experience Timeline with Energy Conduit */}
+        <div className="mb-24">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-30px' }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center gap-2.5 mb-10"
+          >
+            <div className="p-2.5 rounded-xl bg-[#EAE8E2] dark:bg-[#10141C] text-[#D62828] border border-[#D6D5D0] dark:border-[#2A303B]">
+              <Building2 size={18} />
+            </div>
+            <h3 className="font-cinematic font-bold text-2xl tracking-wide uppercase text-[#151922] dark:text-[#F5F3EF]">
+              SERVICE & APPRENTICESHIP TIMELINE
+            </h3>
+          </motion.div>
+
+          {/* Energy Conduit Vertical Bar */}
+          <div className="space-y-10 relative before:absolute before:inset-0 before:left-3 sm:before:left-4 before:w-0.5 before:bg-gradient-to-b before:from-[#D62828] before:via-[#D62828]/40 before:to-transparent">
+            {internships.map((internship, index) => (
+              <motion.div
+                key={internship.id}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.55, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="relative pl-9 sm:pl-12 group"
+              >
+                {/* Glowing Conduit Connector Node */}
+                <div className="absolute left-1.5 sm:left-2.5 top-3 w-4 h-4 rounded-full border-2 border-white dark:border-[#090B10] bg-[#D62828] shadow-[0_0_12px_#D62828] -translate-x-1/2 flex items-center justify-center">
+                  <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                </div>
+
+                <div className="rounded-2xl border border-[#D6D5D0] dark:border-[#2A303B] bg-white dark:bg-[#171C25] p-6 sm:p-8 hover:border-[#D62828] transition-all shadow-md">
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2 mb-2 font-mono text-xs text-[#D62828]">
+                        <span className="px-2.5 py-0.5 rounded bg-[#D62828]/15 font-bold border border-[#D62828]/30 uppercase">
+                          {internship.type}
+                        </span>
+                        {internship.employeeId && (
+                          <span className="text-[#5E6672] dark:text-[#A5ACB8] font-bold">
+                            RECORD ID: {internship.employeeId}
+                          </span>
+                        )}
+                      </div>
+
+                      <h4 className="font-cinematic font-bold text-2xl sm:text-3xl uppercase tracking-wide text-[#151922] dark:text-[#F5F3EF]">
+                        {internship.role}
+                      </h4>
+
+                      <p className="font-mono text-sm font-semibold text-[#D62828] mt-0.5">
+                        {internship.company}
+                      </p>
+                    </div>
+
+                    <div className="flex sm:flex-col sm:items-end gap-3 sm:gap-1.5 font-mono text-xs text-[#5E6672] dark:text-[#A5ACB8]">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#EAE8E2] dark:bg-[#10141C] border border-[#D6D5D0] dark:border-[#2A303B]">
+                        <Calendar size={13} className="text-[#D62828]" />
+                        {internship.duration}
+                      </span>
+                      <span className="inline-flex items-center gap-1.5">
+                        <MapPin size={13} />
+                        {internship.location}
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="text-sm text-[#5E6672] dark:text-[#A5ACB8] leading-relaxed mb-5 font-sans">
+                    {internship.description}
+                  </p>
+
+                  {/* Key Responsibilities */}
+                  <div className="mb-6 pt-4 border-t border-[#D6D5D0]/60 dark:border-[#2A303B]/60">
+                    <span className="font-mono text-xs uppercase tracking-wider text-[#D62828] block mb-2.5 font-bold">
+                      SCOPE OF MISSION & DIRECTIVES:
+                    </span>
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {internship.keyResponsibilities.map((resp, i) => (
+                        <li key={i} className="flex items-start gap-2 text-xs text-[#151922] dark:text-[#F5F3EF]">
+                          <CheckCircle2 size={13} className="text-[#D62828] shrink-0 mt-0.5" />
+                          <span>{resp}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Verified Document Link */}
+                  {internship.certificate && (
+                    <div className="pt-4 border-t border-[#D6D5D0] dark:border-[#2A303B] flex items-center justify-between">
+                      <span className="font-mono text-xs text-[#5E6672] dark:text-[#A5ACB8] flex items-center gap-1.5">
+                        <ShieldCheck size={14} className="text-[#D62828]" />
+                        VERIFIED SERVICE RECORD
+                      </span>
+                      <a
+                        href={internship.certificate}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-[#D62828] text-[#D62828] hover:bg-[#D62828] hover:text-white text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-sm"
+                      >
+                        <FileText size={13} />
+                        <span>VIEW DOCUMENT</span>
+                        <ArrowUpRight size={12} />
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* 2. Accredited Credentials Gallery Bento-Grid */}
+        <div id="certifications" className="pt-8">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-30px' }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center justify-between mb-8 pb-4 border-b border-[#D6D5D0] dark:border-[#2A303B]"
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="p-2.5 rounded-xl bg-[#EAE8E2] dark:bg-[#10141C] text-[#D62828] border border-[#D6D5D0] dark:border-[#2A303B]">
+                <Award size={18} />
+              </div>
+              <h3 className="font-cinematic font-bold text-2xl tracking-wide uppercase text-[#151922] dark:text-[#F5F3EF]">
+                ACCREDITED CREDENTIALS & CERTIFICATIONS
+              </h3>
+            </div>
+            <span className="font-mono text-xs text-[#D62828] font-bold flex items-center gap-1">
+              <Cpu size={13} />
+              {certificates.length} VERIFIED CREDENTIALS
+            </span>
+          </motion.div>
+
+          {/* Certifications Tactical Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {certificates.map((cert, index) => (
+              <motion.div
+                key={cert.id + cert.name}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.45, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                className="rounded-2xl border border-[#D6D5D0] dark:border-[#2A303B] bg-white dark:bg-[#171C25] p-6 flex flex-col justify-between hover:border-[#D62828] transition-all shadow-sm group"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="px-2.5 py-0.5 rounded text-[11px] font-mono font-bold bg-[#EAE8E2] dark:bg-[#10141C] text-[#D62828] border border-[#D6D5D0] dark:border-[#2A303B] uppercase">
+                      {cert.issuer}
+                    </span>
+                    <span className="font-mono text-xs text-[#5E6672] dark:text-[#A5ACB8]">
+                      {cert.date}
+                    </span>
+                  </div>
+
+                  <h4 className="font-cinematic font-bold text-xl uppercase tracking-wide text-[#151922] dark:text-[#F5F3EF] mb-1 leading-snug">
+                    {cert.name}
+                  </h4>
+
+                  <p className="font-mono text-xs text-[#5E6672] dark:text-[#A5ACB8] mb-4">
+                    ISSUED BY: {cert.issuer.toUpperCase()}
+                  </p>
+                </div>
+
+                <div className="pt-3.5 border-t border-[#D6D5D0]/60 dark:border-[#2A303B]/60 flex items-center justify-between">
+                  <span className="font-mono text-[11px] text-[#B9C1CC] flex items-center gap-1">
+                    <ShieldCheck size={13} className="text-[#D62828]" />
+                    ACCREDITED PDF
+                  </span>
+                  <a
+                    href={cert.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Open certificate for ${cert.name}`}
+                    className="inline-flex items-center gap-1 text-xs font-mono font-bold uppercase tracking-wider text-[#D62828] hover:underline"
+                  >
+                    <span>VIEW PDF</span>
+                    <ArrowUpRight size={12} />
+                  </a>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

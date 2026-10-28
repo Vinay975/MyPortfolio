@@ -1,3 +1,71 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-main: #F5F3EF;
+    --bg-secondary: #EAE8E2;
+    --text-primary: #151922;
+    --text-secondary: #5E6672;
+    --accent: #C62828;
+    --accent-hover: #9B1F1F;
+    --border-color: #D6D5D0;
+    --surface: #FFFFFF;
+    --silver: #7A838E;
+    --gold: #C49347;
+    --success: #287A55;
+  }
+
+  .dark {
+    --bg-main: #090B10;
+    --bg-secondary: #10141C;
+    --text-primary: #F5F3EF;
+    --text-secondary: #A5ACB8;
+    --accent: #D62828;
+    --accent-hover: #A91F27;
+    --border-color: #2A303B;
+    --surface: #171C25;
+    --silver: #B9C1CC;
+    --gold: #E8B66B;
+    --success: #77C99C;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+  }
+
+  /* Custom subtle scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
