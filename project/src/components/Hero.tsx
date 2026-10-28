@@ -124,7 +124,7 @@ const Hero: React.FC = () => {
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Multiverse Backdrop Image - 80% Visibility */}
         <img
-          src="/images/hero-bg.jpeg"
+          src="/images/hero-bg.png"
           alt="Developer Multiverse Architectural Gateway"
           className="w-full h-full object-cover object-right opacity-80 filter contrast-110 brightness-95"
         />

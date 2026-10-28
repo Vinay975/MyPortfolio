@@ -97,12 +97,12 @@ const About: React.FC = () => {
               <span className="text-[#5E6672] dark:text-[#A5ACB8]">ID: VT-975</span>
             </div>
 
-            {/* Portrait Image with Scanline Texture Effect */}
+            {/* Portrait Image with Tactical HUD Framing */}
             <div className="relative overflow-hidden rounded-xl border border-[#D6D5D0] dark:border-[#2A303B] bg-[#090B10] mb-4">
               <img
-                src="/perfect.jpg"
+                src="/images/image.png"
                 alt="Vinay Tellagorla - Developer Dossier"
-                className="w-full h-[320px] sm:h-[360px] object-cover object-top filter grayscale contrast-115 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
+                className="w-full h-[320px] sm:h-[360px] object-cover object-center filter contrast-105 brightness-100 group-hover:scale-105 transition-all duration-500"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                 }}
