@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Volume2, VolumeX, FastForward, ArrowRight, Shield } from 'lucide-react';
+import { FastForward, ArrowRight, Shield } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 import { getDialogue } from '../data/marvelDialogue';
 import {
-  getAudioMuted,
-  toggleAudioMute,
   playCinematicDrone,
   playCinematicWhoosh,
   playCinematicEnter,
@@ -17,7 +15,6 @@ interface CinematicIntroProps {
 const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) => {
   const [stage, setStage] = useState<'sceneA' | 'sceneB' | 'sceneC' | 'sceneD'>('sceneA');
   const [subTextIndex, setSubTextIndex] = useState(0);
-  const [isMuted, setIsMuted] = useState(getAudioMuted());
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   // Check reduced motion preference
@@ -29,11 +26,11 @@ const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) => {
     }
   }, []);
 
-  // Sequence timer advancement (around 4.5 seconds total if not skipped)
+  // Sequence timer advancement (around 4.2 seconds total if not skipped)
   useEffect(() => {
     if (prefersReducedMotion) return;
 
-    // Scene A: Initial ambient black & particles (0 -> 1.0s)
+    // Scene A: Initial ambient black & particles (0 -> 0.7s)
     const t1 = setTimeout(() => {
       setStage('sceneB');
       setSubTextIndex(1); // 'INITIALIZING DEVELOPER UNIVERSE'
@@ -66,7 +63,6 @@ const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) => {
 
   const handleEnter = useCallback(() => {
     playCinematicEnter();
-    sessionStorage.setItem('hasSeenCinematicIntro', 'true');
     onComplete();
   }, [onComplete]);
 
@@ -80,14 +76,6 @@ const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleEnter]);
-
-  const handleSoundToggle = () => {
-    const newMuted = toggleAudioMute();
-    setIsMuted(newMuted);
-    if (!newMuted) {
-      playCinematicDrone();
-    }
-  };
 
   return (
     <div
@@ -113,18 +101,8 @@ const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) => {
         />
       </div>
 
-      {/* Top Utility Controls: Audio toggle & Skip Intro */}
-      <div className="absolute top-6 left-6 right-6 z-20 flex items-center justify-between">
-        <button
-          onClick={handleSoundToggle}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[#2A303B] bg-[#10141C]/80 backdrop-blur-sm text-xs font-mono text-[#A5ACB8] hover:text-[#F5F3EF] hover:border-[#D62828] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D62828]"
-          title={isMuted ? 'Enable procedural audio' : 'Mute audio'}
-          aria-label={isMuted ? 'Sound muted. Click to enable sound' : 'Sound active. Click to mute sound'}
-        >
-          {isMuted ? <VolumeX size={14} className="text-[#A5ACB8]" /> : <Volume2 size={14} className="text-[#D62828] animate-pulse" />}
-          <span>{isMuted ? 'AUDIO: MUTED' : 'AUDIO: ENGAGED'}</span>
-        </button>
-
+      {/* Top Utility Control: Skip Intro */}
+      <div className="absolute top-6 right-6 z-20 flex items-center">
         <button
           onClick={handleEnter}
           className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-[#2A303B] bg-[#10141C]/80 backdrop-blur-sm text-xs font-mono font-medium text-[#B9C1CC] hover:text-white hover:border-[#D62828] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D62828]"
@@ -202,9 +180,9 @@ const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) => {
                 aria-label={getDialogue('introSignature')?.ariaLabel}
               >
                 <p className="font-cinematic font-bold text-lg sm:text-xl text-[#F5F3EF] tracking-widest italic text-center">
-                  {getDialogue('introSignature')?.quote}
+                  &ldquo;{getDialogue('introSignature')?.quote}&rdquo;
                 </p>
-                <span className="font-mono text-[10px] uppercase tracking-widest text-[#D62828] mt-0.5 text-center">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-[#D62828] mt-0.5 text-center font-bold">
                   {getDialogue('introSignature')?.subtext}
                 </span>
               </div>

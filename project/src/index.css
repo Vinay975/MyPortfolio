@@ -69,3 +69,88 @@
     }
   }
 }
+
+/* Marvel Studios Intro Transition Animations */
+@keyframes marvelComicFlicker {
+  0% {
+    opacity: 0.2;
+    transform: scale(1.08) translateY(-4px);
+    filter: brightness(180%) contrast(150%);
+  }
+  15% {
+    opacity: 0.75;
+    transform: scale(1.05) translateY(-2px);
+    filter: brightness(90%) contrast(220%) hue-rotate(25deg);
+  }
+  30% {
+    opacity: 0.45;
+    transform: scale(1.03) translateY(-1px);
+    filter: brightness(170%) contrast(160%);
+  }
+  45% {
+    opacity: 0.9;
+    transform: scale(1.02);
+    filter: brightness(110%) contrast(140%) hue-rotate(-20deg);
+  }
+  65% {
+    opacity: 0.65;
+    transform: scale(1.01);
+    filter: brightness(140%) contrast(190%);
+  }
+  85% {
+    opacity: 0.95;
+    transform: scale(1.005);
+    filter: brightness(120%) contrast(120%);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: brightness(100%) contrast(100%);
+  }
+}
+
+@keyframes marvelSheenSweep {
+  0% {
+    background-position: -250% 0;
+  }
+  100% {
+    background-position: 250% 0;
+  }
+}
+
+@keyframes marvelRedPulse {
+  0% {
+    text-shadow: 0 0 0px transparent;
+  }
+  50% {
+    text-shadow: 0 0 35px rgba(214, 40, 40, 0.9), 0 0 60px rgba(214, 40, 40, 0.5);
+  }
+  100% {
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.marvel-flicker {
+  animation: marvelComicFlicker 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.marvel-sheen {
+  background: linear-gradient(
+    110deg,
+    currentColor 0%,
+    currentColor 30%,
+    #FFFFFF 45%,
+    #D62828 50%,
+    #FFFFFF 55%,
+    currentColor 70%,
+    currentColor 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: marvelSheenSweep 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.marvel-glow {
+  animation: marvelRedPulse 1.2s ease-out forwards;
+}

@@ -1,28 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Sun, Moon, FileText, ArrowUpRight, Play, Volume2, VolumeX } from 'lucide-react';
+import { Menu, X, Sun, Moon, FileText, ArrowUpRight } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { personalInfo } from '../data/portfolioData';
-import { getAudioMuted, toggleAudioMute, playCinematicWhoosh } from '../utils/soundEffects';
-
-interface HeaderProps {
-  onReplayIntro?: () => void;
-}
+import { playCinematicWhoosh } from '../utils/soundEffects';
 
 const navItems = [
   { name: 'Home', href: '#home' },
   { name: 'About', href: '#about' },
-  { name: 'Arsenal', href: '#skills'},
+  { name: 'Arsenal', href: '#skills' },
   { name: 'Missions', href: '#projects' },
-  { name: 'Field Records', href: '#experience'},
-  { name: 'Credentials', href: '#certifications'},
-  { name: 'Comms', href: '#contact'},
+  { name: 'Field Records', href: '#experience' },
+  { name: 'Credentials', href: '#certifications' },
+  { name: 'Comms', href: '#contact' },
 ];
 
-const Header: React.FC<HeaderProps> = ({ onReplayIntro }) => {
+const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-  const [isMuted, setIsMuted] = useState(getAudioMuted());
   const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
@@ -65,11 +60,6 @@ const Header: React.FC<HeaderProps> = ({ onReplayIntro }) => {
       element.scrollIntoView({ behavior: 'smooth' });
       setIsMenuOpen(false);
     }
-  };
-
-  const handleAudioToggle = () => {
-    const muted = toggleAudioMute();
-    setIsMuted(muted);
   };
 
   return (
@@ -123,8 +113,7 @@ const Header: React.FC<HeaderProps> = ({ onReplayIntro }) => {
                   }`}
                   aria-current={isActive ? 'page' : undefined}
                 >
-                  <span className="text-[10px] opacity-40 mr-1">{item.code}</span>
-                  {item.name}
+                  <span>{item.name}</span>
                   {isActive && (
                     <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-[#D62828] rounded-full shadow-[0_0_8px_#D62828]" />
                   )}
@@ -133,30 +122,8 @@ const Header: React.FC<HeaderProps> = ({ onReplayIntro }) => {
             })}
           </nav>
 
-          {/* Right Controls: Audio Toggle, Replay Intro, Theme Switch, Resume */}
-          <div className="hidden sm:flex items-center space-x-2.5">
-            {/* Audio Toggle */}
-            <button
-              onClick={handleAudioToggle}
-              className="p-2 rounded-lg border border-[#D6D5D0] dark:border-[#2A303B] bg-white dark:bg-[#171C25] text-[#5E6672] dark:text-[#A5ACB8] hover:border-[#D62828] hover:text-[#D62828] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D62828]"
-              title={isMuted ? 'Enable procedural audio' : 'Mute audio'}
-              aria-label={isMuted ? 'Audio muted' : 'Audio active'}
-            >
-              {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} className="text-[#D62828]" />}
-            </button>
-
-            {/* Replay Intro Button */}
-            {onReplayIntro && (
-              <button
-                onClick={onReplayIntro}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[#D6D5D0] dark:border-[#2A303B] bg-white dark:bg-[#171C25] text-[#5E6672] dark:text-[#A5ACB8] hover:border-[#D62828] hover:text-[#D62828] text-xs font-mono transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D62828]"
-                title="Replay cinematic universe intro"
-              >
-                <Play size={12} className="text-[#D62828]" />
-                <span className="hidden md:inline">INTRO</span>
-              </button>
-            )}
-
+          {/* Right Controls: Theme Switch, Resume */}
+          <div className="hidden sm:flex items-center space-x-3">
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
@@ -181,14 +148,6 @@ const Header: React.FC<HeaderProps> = ({ onReplayIntro }) => {
 
           {/* Mobile Controls */}
           <div className="flex sm:hidden items-center space-x-2">
-            <button
-              onClick={handleAudioToggle}
-              className="p-2 rounded-lg border border-[#D6D5D0] dark:border-[#2A303B] bg-white dark:bg-[#171C25] text-[#5E6672] dark:text-[#A5ACB8]"
-              aria-label="Toggle audio"
-            >
-              {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} className="text-[#D62828]" />}
-            </button>
-
             <button
               onClick={toggleTheme}
               className="p-2 rounded-lg border border-[#D6D5D0] dark:border-[#2A303B] bg-white dark:bg-[#171C25] text-[#151922] dark:text-[#F5F3EF]"
@@ -225,26 +184,12 @@ const Header: React.FC<HeaderProps> = ({ onReplayIntro }) => {
                     }`}
                   >
                     <span>{item.name}</span>
-                    <span className="text-xs opacity-50 font-mono">{item.code}</span>
                   </button>
                 );
               })}
             </nav>
 
             <div className="mt-4 pt-4 border-t border-[#D6D5D0] dark:border-[#2A303B] flex flex-col gap-2">
-              {onReplayIntro && (
-                <button
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    onReplayIntro();
-                  }}
-                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-[#2A303B] bg-[#171C25] text-xs font-mono text-[#F5F3EF]"
-                >
-                  <Play size={13} className="text-[#D62828]" />
-                  <span>REPLAY CINEMATIC INTRO</span>
-                </button>
-              )}
-
               <a
                 href="/Vinay_FullStack_Resume.pdf"
                 target="_blank"

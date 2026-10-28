@@ -1,13 +1,9 @@
 import React from 'react';
-import { ArrowUp, Github, Linkedin, Mail, ArrowUpRight, Play } from 'lucide-react';
+import { ArrowUp, Github, Linkedin, Mail, ArrowUpRight } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 import { getDialogue } from '../data/marvelDialogue';
 
-interface FooterProps {
-  onReplayIntro?: () => void;
-}
-
-const Footer: React.FC<FooterProps> = ({ onReplayIntro }) => {
+const Footer: React.FC = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -105,25 +101,15 @@ const Footer: React.FC<FooterProps> = ({ onReplayIntro }) => {
             </ul>
           </div>
 
-          {/* Replay Intro & Dossier Download (3 cols) */}
+          {/* Verifiable Credentials Dossier (3 cols) */}
           <div className="md:col-span-3 flex flex-col justify-between">
             <div>
               <h4 className="font-mono text-xs uppercase tracking-widest text-[#D62828] mb-4 font-bold">
-                EXPERIENCE PROTOCOLS
+                DOSSIER & CREDENTIALS
               </h4>
               <p className="font-mono text-xs text-[#A5ACB8] mb-4">
-                Re-experience the title sequence or download verifiable credentials:
+                Download verified full-stack engineering dossier and institutional credentials:
               </p>
-
-              {onReplayIntro && (
-                <button
-                  onClick={onReplayIntro}
-                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-[#2A303B] bg-[#171C25] text-[#F5F3EF] hover:border-[#D62828] text-xs font-mono font-bold uppercase tracking-wider transition-colors mb-3"
-                >
-                  <Play size={12} className="text-[#D62828]" />
-                  <span>REPLAY CINEMATIC INTRO</span>
-                </button>
-              )}
             </div>
 
             <div>

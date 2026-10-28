@@ -1,47 +1,104 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Layout, Server, Database, Wrench, Code2, Check, Cpu } from 'lucide-react';
-import { skills, SkillItem } from '../data/portfolioData';
+import {
+  Code2,
+  Server,
+  Database,
+  Sparkles,
+  Terminal,
+  Rocket,
+  Search,
+} from 'lucide-react';
 
-type SkillTab = 'all' | 'frontend' | 'backend' | 'database' | 'tools' | 'languages';
+interface SkillCardData {
+  id: string;
+  title: string;
+  callSign: string;
+  mastery: number;
+  icon: React.ReactElement;
+  col1: string[];
+  col2: string[];
+}
 
-const categories = [
-  { id: 'frontend', name: 'Frontend & Mobile', callSign: 'ARSENAL-01', icon: <Layout size={16} />, items: skills.frontend },
-  { id: 'backend', name: 'Backend & APIs', callSign: 'ARSENAL-02', icon: <Server size={16} />, items: skills.backend },
-  { id: 'database', name: 'Data Architecture', callSign: 'ARSENAL-03', icon: <Database size={16} />, items: skills.database },
-  { id: 'tools', name: 'Tools & DevOps', callSign: 'ARSENAL-04', icon: <Wrench size={16} />, items: skills.tools },
-  { id: 'languages', name: 'Core Languages', callSign: 'ARSENAL-05', icon: <Code2 size={16} />, items: skills.languages },
+const skillCards: SkillCardData[] = [
+  {
+    id: 'frontend',
+    title: 'Frontend Development',
+    callSign: 'DOMAIN 01 // CLIENT SYSTEMS',
+    mastery: 95,
+    icon: <Code2 size={22} className="text-[#D62828]" />,
+    col1: ['React.js', 'React Native', 'Next.js', 'Tailwind CSS', 'TypeScript'],
+    col2: ['JavaScript (ES6+)', 'HTML5 & CSS3', 'Framer Motion', 'Redux & Zustand', 'Bootstrap'],
+  },
+  {
+    id: 'backend',
+    title: 'Backend Development',
+    callSign: 'DOMAIN 02 // SERVER ARCHITECTURE',
+    mastery: 92,
+    icon: <Server size={22} className="text-[#D62828]" />,
+    col1: ['Node.js', 'Express.js', 'RESTful APIs', 'JWT & Auth Pipelines'],
+    col2: ['API Middleware', 'Request Validation', 'Asynchronous I/O', 'Webhooks & Events'],
+  },
+  {
+    id: 'database',
+    title: 'Database & Cloud',
+    callSign: 'DOMAIN 03 // DATA ARCHITECTURE',
+    mastery: 90,
+    icon: <Database size={22} className="text-[#D62828]" />,
+    col1: ['MongoDB', 'Mongoose ODM', 'Firebase', 'Cloudinary'],
+    col2: ['MySQL', 'PostgreSQL', 'Document Indexing', 'Aggregation Pipelines'],
+  },
+  {
+    id: 'ai',
+    title: 'AI & Modern Tools',
+    callSign: 'DOMAIN 04 // INTELLIGENT SYSTEMS',
+    mastery: 88,
+    icon: <Sparkles size={22} className="text-[#D62828]" />,
+    col1: ['OpenAI APIs', 'Gemini API', 'Cursor AI', 'Prompt Engineering'],
+    col2: ['Vercel AI SDK', 'GitHub Copilot', 'Model Evaluation', 'Data Preprocessing'],
+  },
+  {
+    id: 'languages',
+    title: 'Programming Languages',
+    callSign: 'DOMAIN 05 // SYSTEM PRINCIPLES',
+    mastery: 95,
+    icon: <Terminal size={22} className="text-[#D62828]" />,
+    col1: ['JavaScript (ES6+)', 'TypeScript', 'Python', 'C++'],
+    col2: ['Java', 'C Language', 'SQL', 'Data Structures (DSA)'],
+  },
+  {
+    id: 'devops',
+    title: 'DevOps & Tooling',
+    callSign: 'DOMAIN 06 // DEPLOYMENT & PIPELINES',
+    mastery: 86,
+    icon: <Rocket size={22} className="text-[#D62828]" />,
+    col1: ['Git & GitHub', 'Postman APIs', 'npm & yarn', 'Vite & Webpack'],
+    col2: ['Vercel Cloud', 'Netlify', 'VS Code Workspaces', 'CI/CD Workflows'],
+  },
 ];
 
-const tierStyles: Record<SkillItem['tier'], { badge: string; dot: string; bar: string }> = {
-  Core: {
-    badge: 'bg-[#D62828]/15 text-[#D62828] border-[#D62828]/35 font-bold',
-    dot: 'bg-[#D62828]',
-    bar: 'w-full bg-[#D62828]',
-  },
-  Advanced: {
-    badge: 'bg-[#B9C1CC]/15 text-[#B9C1CC] border-[#2A303B] font-semibold',
-    dot: 'bg-[#B9C1CC]',
-    bar: 'w-4/5 bg-[#B9C1CC]',
-  },
-  Proficient: {
-    badge: 'bg-black/10 dark:bg-white/5 text-[#5E6672] dark:text-[#A5ACB8] border-[#D6D5D0] dark:border-[#2A303B]',
-    dot: 'bg-[#5E6672] dark:bg-[#A5ACB8]',
-    bar: 'w-3/5 bg-[#5E6672] dark:bg-[#A5ACB8]',
-  },
-  Familiar: {
-    badge: 'bg-black/5 dark:bg-white/5 text-[#5E6672] dark:text-[#A5ACB8] border-transparent',
-    dot: 'bg-[#5E6672]',
-    bar: 'w-2/5 bg-[#5E6672]/50',
-  },
-};
-
 const Skills: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<SkillTab>('all');
+  const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredCategories = activeTab === 'all'
-    ? categories
-    : categories.filter((c) => c.id === activeTab);
+  // Total unique skills across all 6 cards
+  const totalSkillsCount = useMemo(() => {
+    return skillCards.reduce((acc, card) => acc + card.col1.length + card.col2.length, 0);
+  }, []);
+
+  // Filtered cards based on tab selection and search query
+  const filteredCards = useMemo(() => {
+    return skillCards
+      .filter((card) => activeCategory === 'all' || card.id === activeCategory)
+      .filter((card) => {
+        if (!searchQuery.trim()) return true;
+        const q = searchQuery.toLowerCase();
+        const inTitle = card.title.toLowerCase().includes(q);
+        const inCol1 = card.col1.some((s) => s.toLowerCase().includes(q));
+        const inCol2 = card.col2.some((s) => s.toLowerCase().includes(q));
+        return inTitle || inCol1 || inCol2;
+      });
+  }, [activeCategory, searchQuery]);
 
   return (
     <section
@@ -60,7 +117,7 @@ const Skills: React.FC = () => {
         >
           <div>
             <div className="font-mono text-xs uppercase tracking-widest text-[#D62828] mb-2 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#D62828]" />
+              <span className="w-2 h-2 rounded-full bg-[#D62828] animate-pulse" />
               <span>CAPABILITIES DIRECTORY // TECHNICAL ARSENAL</span>
             </div>
             <h2 className="font-cinematic font-black text-4xl sm:text-5xl tracking-wider uppercase text-[#151922] dark:text-[#F5F3EF]">
@@ -68,156 +125,133 @@ const Skills: React.FC = () => {
             </h2>
           </div>
           <p className="mt-3 md:mt-0 font-mono text-xs text-[#5E6672] dark:text-[#A5ACB8] max-w-md uppercase tracking-wider">
-            VERIFIED COMPETENCY LEVELS & CORE SYSTEM SPECIFICATIONS. ZERO FAKE POWER LEVELS.
+            PRODUCTION-GRADE MATRIX OF {totalSkillsCount}+ TECHNOLOGIES ORGANIZED INTO 6 ARCHITECTURAL DOMAINS.
           </p>
         </motion.div>
 
-        {/* Tactical Discipline Filter Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-10 no-scrollbar" role="tablist" aria-label="Arsenal Categories">
-          <button
-            onClick={() => setActiveTab('all')}
-            className={`px-4 py-2 rounded-lg text-xs font-mono uppercase tracking-wider transition-all shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D62828] ${
-              activeTab === 'all'
-                ? 'bg-[#D62828] text-white font-bold shadow-md shadow-[#D62828]/25'
-                : 'bg-white dark:bg-[#171C25] border border-[#D6D5D0] dark:border-[#2A303B] text-[#5E6672] dark:text-[#A5ACB8] hover:text-[#151922] dark:hover:text-[#F5F3EF]'
-            }`}
-          >
-            ALL CAPABILITIES
-          </button>
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveTab(cat.id as SkillTab)}
-              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-mono uppercase tracking-wider transition-all shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D62828] ${
-                activeTab === cat.id
-                  ? 'bg-[#D62828] text-white font-bold shadow-md shadow-[#D62828]/25'
-                  : 'bg-white dark:bg-[#171C25] border border-[#D6D5D0] dark:border-[#2A303B] text-[#5E6672] dark:text-[#A5ACB8] hover:text-[#151922] dark:hover:text-[#F5F3EF]'
-              }`}
-            >
-              {cat.icon}
-              <span>{cat.name}</span>
-            </button>
-          ))}
-        </div>
 
-        {/* Arsenal Directory Grid with Bento Card Architecture */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.35 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
-            {filteredCategories.map((category, index) => (
+          
+
+        {/* 6-Card Grid: Inspired by the User's Template with Cinematic Tech Styling */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+          <AnimatePresence mode="popLayout">
+            {filteredCards.map((card, idx) => (
               <motion.div
-                key={category.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.45, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                className="rounded-2xl border border-[#D6D5D0] dark:border-[#2A303B] bg-white dark:bg-[#171C25] p-6 sm:p-7 flex flex-col justify-between hover:border-[#D62828] transition-all shadow-sm group"
+                key={card.id}
+                layout
+                initial={{ opacity: 0, y: 30, filter: 'blur(4px)' }}
+                whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{
+                  duration: 0.5,
+                  delay: idx * 0.08,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                whileHover={{ y: -4 }}
+                className="rounded-2xl sm:rounded-3xl border border-[#D6D5D0] dark:border-[#2A303B] bg-white dark:bg-[#171C25] p-6 sm:p-7 shadow-sm hover:shadow-xl hover:border-[#D62828] transition-all duration-300 relative overflow-hidden group flex flex-col justify-between"
               >
+                {/* HUD Corner Reticles */}
+                <div className="absolute top-2.5 left-2.5 w-2.5 h-2.5 border-t border-l border-[#D62828]/40 group-hover:border-[#D62828] transition-colors" />
+                <div className="absolute top-2.5 right-2.5 w-2.5 h-2.5 border-t border-r border-[#D62828]/40 group-hover:border-[#D62828] transition-colors" />
+
                 <div>
-                  {/* Category Header with LED Indicator */}
-                  <div className="flex items-center justify-between pb-4 mb-5 border-b border-[#D6D5D0] dark:border-[#2A303B]">
-                    <div className="flex items-center gap-2.5">
-                      <div className="p-2.5 rounded-xl bg-[#EAE8E2] dark:bg-[#10141C] text-[#D62828] border border-[#D6D5D0] dark:border-[#2A303B] group-hover:border-[#D62828]/50 transition-colors">
-                        {category.icon}
+                  {/* Card Header: Icon + Title + Mastery Percentage */}
+                  <div className="flex items-start justify-between gap-3 mb-4">
+                    <div className="flex items-center gap-3">
+                      {/* Icon Squircle Badge */}
+                      <div className="w-12 h-12 rounded-2xl bg-[#D62828]/10 dark:bg-[#D62828]/15 border border-[#D62828]/25 flex items-center justify-center text-[#D62828] shrink-0 group-hover:scale-105 group-hover:border-[#D62828] transition-all">
+                        {card.icon}
                       </div>
+
+                      {/* Title & Call Sign */}
                       <div>
-                        <span className="font-mono text-[10px] text-[#D62828] font-bold block uppercase tracking-wider">
-                          {category.callSign}
-                        </span>
-                        <h3 className="font-cinematic font-bold text-xl tracking-wide uppercase text-[#151922] dark:text-[#F5F3EF]">
-                          {category.name}
+                        <h3 className="font-cinematic font-black text-xl sm:text-2xl tracking-wide uppercase text-[#151922] dark:text-[#F5F3EF] leading-tight">
+                          {card.title}
                         </h3>
                       </div>
                     </div>
-                    <div className="flex items-center gap-1.5 font-mono text-[11px] text-[#5E6672] dark:text-[#A5ACB8] bg-[#EAE8E2] dark:bg-[#10141C] px-2 py-0.5 rounded border border-[#D6D5D0] dark:border-[#2A303B]">
-                      <Cpu size={12} className="text-[#D62828]" />
-                      <span>{category.items.length}</span>
+
+                  
+                  </div>
+                  {/* 2-Column Bulleted Skills List */}
+                  <div className="grid grid-cols-2 gap-x-5 pt-1 pb-4">
+                    {/* Left Column */}
+                    <div className="space-y-2.5">
+                      {card.col1.map((skill) => {
+                        const isMatch = searchQuery && skill.toLowerCase().includes(searchQuery.toLowerCase());
+                        return (
+                          <div key={skill} className="flex items-center gap-2 group/item">
+                            <span
+                              className={`w-1.5 h-1.5 rounded-full shrink-0 transition-transform ${
+                                isMatch ? 'bg-[#FF4D4D] scale-150' : 'bg-[#D62828] group-hover/item:scale-125'
+                              }`}
+                            />
+                            <span
+                              className={`text-xs sm:text-sm font-sans font-medium transition-colors truncate ${
+                                isMatch
+                                  ? 'text-[#D62828] font-bold'
+                                  : 'text-[#151922] dark:text-[#D5DBE5] group-hover/item:text-[#D62828] dark:group-hover/item:text-[#F5F3EF]'
+                              }`}
+                            >
+                              {skill}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Right Column */}
+                    <div className="space-y-2.5">
+                      {card.col2.map((skill) => {
+                        const isMatch = searchQuery && skill.toLowerCase().includes(searchQuery.toLowerCase());
+                        return (
+                          <div key={skill} className="flex items-center gap-2 group/item">
+                            <span
+                              className={`w-1.5 h-1.5 rounded-full shrink-0 transition-transform ${
+                                isMatch ? 'bg-[#FF4D4D] scale-150' : 'bg-[#D62828] group-hover/item:scale-125'
+                              }`}
+                            />
+                            <span
+                              className={`text-xs sm:text-sm font-sans font-medium transition-colors truncate ${
+                                isMatch
+                                  ? 'text-[#D62828] font-bold'
+                                  : 'text-[#151922] dark:text-[#D5DBE5] group-hover/item:text-[#D62828] dark:group-hover/item:text-[#F5F3EF]'
+                              }`}
+                            >
+                              {skill}
+                            </span>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
-
-                  {/* Skill Arsenal Item Cards */}
-                  <ul className="space-y-4">
-                    {category.items.map((skill) => {
-                      const style = tierStyles[skill.tier];
-                      return (
-                        <li
-                          key={skill.name}
-                          className="p-3 rounded-xl bg-[#F5F3EF]/60 dark:bg-[#10141C]/60 border border-[#D6D5D0]/60 dark:border-[#2A303B]/60 hover:border-[#D62828]/40 transition-colors"
-                        >
-                          <div className="flex items-center justify-between mb-1.5">
-                            <span className="font-sans font-bold text-sm text-[#151922] dark:text-[#F5F3EF]">
-                              {skill.name}
-                            </span>
-                            <span
-                              className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono border ${style.badge}`}
-                            >
-                              <span className={`w-1 h-1 rounded-full ${style.dot}`} />
-                              {skill.tier}
-                            </span>
-                          </div>
-
-                          <p className="font-mono text-[11px] text-[#5E6672] dark:text-[#A5ACB8] leading-snug mb-2">
-                            {skill.focus}
-                          </p>
-
-                          {/* Tactical Capacity Micro-Bar */}
-                          <div className="w-full h-1 bg-[#D6D5D0] dark:bg-[#2A303B] rounded-full overflow-hidden">
-                            <div className={`h-full rounded-full ${style.bar}`} />
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-
-                {/* Bottom Card Footer */}
-                <div className="mt-6 pt-4 border-t border-[#D6D5D0]/60 dark:border-[#2A303B]/60 flex items-center justify-between font-mono text-[11px] text-[#5E6672] dark:text-[#A5ACB8]">
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#287A55] dark:bg-[#77C99C] animate-pulse" />
-                    STATUS: OPERATIONAL
-                  </span>
-                  <span className="text-[#D62828] flex items-center gap-1 font-bold">
-                    <Check size={12} /> VERIFIED
-                  </span>
                 </div>
               </motion.div>
             ))}
-          </motion.div>
-        </AnimatePresence>
+          </AnimatePresence>
+        </div>
 
-        {/* Tiers Legend Note */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-30px' }}
-          transition={{ duration: 0.5 }}
-          className="mt-12 p-4 sm:p-5 rounded-2xl border border-[#D6D5D0] dark:border-[#2A303B] bg-[#EAE8E2]/60 dark:bg-[#10141C]/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-mono text-xs text-[#5E6672] dark:text-[#A5ACB8]"
-        >
-          <div className="flex flex-wrap items-center gap-4">
-            <span className="font-bold text-[#151922] dark:text-[#F5F3EF]">ARSENAL RATINGS:</span>
-            <span className="inline-flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#D62828]" />
-              <strong>CORE</strong> (Primary production mastery)
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#B9C1CC]" />
-              <strong>ADVANCED</strong> (Deep architectural experience)
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#5E6672] dark:bg-[#A5ACB8]" />
-              <strong>PROFICIENT</strong> (Battle-tested working knowledge)
-            </span>
+        {/* Empty Search State */}
+        {filteredCards.length === 0 && (
+          <div className="text-center py-16 rounded-2xl border border-dashed border-[#D6D5D0] dark:border-[#2A303B] mt-6">
+            <Search size={28} className="mx-auto text-[#5E6672] mb-3" />
+            <h4 className="font-cinematic font-bold text-xl uppercase tracking-wider text-[#151922] dark:text-[#F5F3EF]">
+              NO CAPABILITIES MATCHING &ldquo;{searchQuery}&rdquo;
+            </h4>
+            <p className="font-mono text-xs text-[#5E6672] dark:text-[#A5ACB8] mt-1">
+              Try searching for another keyword or reset the category filters.
+            </p>
+            <button
+              onClick={() => {
+                setSearchQuery('');
+                setActiveCategory('all');
+              }}
+              className="mt-4 px-4 py-2 rounded-xl bg-[#D62828] text-white text-xs font-mono uppercase tracking-wider font-bold shadow-md shadow-[#D62828]/25"
+            >
+              RESET FILTERS
+            </button>
           </div>
-          <span className="text-[11px] text-[#D62828] font-bold">
-            100% RECRUITER VERIFIED // HONEST CAPABILITIES
-          </span>
-        </motion.div>
+        )}
       </div>
     </section>
   );
